@@ -31,7 +31,8 @@ def sub_space(label):
 def main():
     game, console = get_names()
     url = "https://www.ebay.com/sch/i.html?_from=R40&_nkw=" + game + "+" + console + \
-          "&_sacat=0&LH_BIN=1&Region%2520Code=NTSC%252DU%252FC%2520%2528US%252FCanada%2529&rt=nc&_oaa=1&_dcat=139973"
+          "&_sacat=0&LH_BIN=1&Region%2520Code=NTSC%252DU%252FC%2520%2528US%252FCanada%2529&rt=nc&_oaa=1&_dcat=139973&_ipg=200"
+    print(url)
 
 
 main()
