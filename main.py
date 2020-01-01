@@ -61,6 +61,11 @@ def get(link):
                     convert_price = convert_price + j
             price = convert_price
 
+        if " " in price:
+            price_range = price.split()
+            price = (float(price_range[0]) + float(price_range[-1][1:]))/2
+
+
         price_list.append(float(price))
 
     return average_price(price_list)
@@ -75,6 +80,7 @@ def main():
     print(url)
     average = get(url)
     print("\nThe average price of " + game + " on the " + console + " is approximately $" + str(average))
+    print("\nKeep in mind that the average may vary depending on pricing based on quality and edition of copies")
 
 
 main()
