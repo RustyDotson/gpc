@@ -1,5 +1,5 @@
-# import urllib2
-# from bs4 import BeautifulSoup as bs
+from bs4 import BeautifulSoup as bs
+import requests
 
 
 def get_names():
@@ -27,12 +27,24 @@ def sub_space(label):
             new_label = new_label + i
     return new_label
 
+def get(link):
+    """
+    pull html from the url link parameter.
+    help from https://www.youtube.com/watch?v=ng2o98k983k
+    """
+    page = requests.get(link).text
+    fetch = bs(page, 'lxml')
+    games = fetch.find("li")
+    print(fetch.find(id="srp-river-results-listing1"))
+
 
 def main():
     game, console = get_names()
     url = "https://www.ebay.com/sch/i.html?_from=R40&_nkw=" + game + "+" + console + \
-          "&_sacat=0&LH_BIN=1&Region%2520Code=NTSC%252DU%252FC%2520%2528US%252FCanada%2529&rt=nc&_oaa=1&_dcat=139973&_ipg=200"
+          "&_sacat=0&LH_BIN=1&Region%2520Code=NTSC%252DU%252FC%2520%2528US%252FCanada%2529&rt=nc&_oaa=1&_dcat=139973" \
+          "&_ipg=200 "
     print(url)
+    get(url)
 
 
 main()
