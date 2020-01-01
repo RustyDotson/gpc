@@ -81,6 +81,7 @@ def main():
     average = get(url)
     print("\nThe average price of " + game + " on the " + console + " is approximately $" + str(average))
     print("\nKeep in mind that the average may vary depending on pricing based on quality and edition of copies")
+    print("\nAlso, games with similar names may accidentally be thrown into the average.")
 
 
 main()
