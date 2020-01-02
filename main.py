@@ -30,12 +30,11 @@ def average_price(prices):
     get the average of a list of floats
     """
 
-    sum = 0
-
+    overall_price = 0
     for i in prices:
-        sum += i
+        overall_price += i
 
-    return sum/len(prices)
+    return overall_price/len(prices)
 
 
 def get(link):
@@ -47,7 +46,8 @@ def get(link):
     fetch = bs(page, 'lxml')
     price_list = []
 
-    for i in range(200):
+    for i in range(99):
+        print(i)
         if fetch.find(id="srp-river-results-listing" + str(i + 1)) == None:
             return average_price(price_list)
 
@@ -65,21 +65,28 @@ def get(link):
             price_range = price.split()
             price = (float(price_range[0]) + float(price_range[-1][1:]))/2
 
-
+        #if float(price) > 1000.0:
+        #    continue
+        #else:
         price_list.append(float(price))
 
     return average_price(price_list)
 
 
-
 def main():
+
     game, console = get_names()
+
     url = "https://www.ebay.com/sch/i.html?_from=R40&_nkw=" + sub_space(game) + "+" + sub_space(console) + \
           "&_sacat=0&LH_BIN=1&Region%2520Code=NTSC%252DU%252FC%2520%2528US%252FCanada%2529&rt=nc&_oaa=1&_dcat=139973" \
           "&_ipg=200"
+
     print(url)
     average = get(url)
-    print("\nThe average price of " + game + " on the " + console + " is approximately $" + str(average))
+
+    print("\nThe average price of " + game + " on the " + console + " is approximately $"
+          + str("{0:.2f}".format(average)))  # Used to remove large floating decimal numbers in the average
+
     print("\nKeep in mind that the average may vary depending on pricing based on quality and edition of copies")
     print("\nAlso, games with similar names may accidentally be thrown into the average.")
 
