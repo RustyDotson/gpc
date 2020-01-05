@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup as bs
 import requests
+import os
 
 
 def get_names():
@@ -73,12 +74,12 @@ def check_shipping(ship_html):
 
 
 def add_shipping(price, ship_check):
+
     shipping = ship_check.get_text()
     temp_ship = shipping.split()
     shipping = float(temp_ship[0][2:])
-    print(price)
     price = float(price) + shipping
-    print(price)
+
     return price
 
 
@@ -86,6 +87,7 @@ def get_prices(page_data):
     price_list = []
 
     for i in range(199):
+
         if page_data.find(id="srp-river-results-listing" + str(i + 1)) is None:
             return average_price(price_list)
 
