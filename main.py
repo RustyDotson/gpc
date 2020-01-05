@@ -1,6 +1,5 @@
 from bs4 import BeautifulSoup as bs
 import requests
-import os
 
 
 def get_names():
@@ -10,7 +9,7 @@ def get_names():
                       "under NTSC-U/C for better accuracy:")
     console_name = input("What system is this game played on? (ex. Xbox 360, NES, Commodore 64)")
 
-    return game_name, console_name
+    return game_name.lower(), console_name.lower()
 
 
 def sub_space(label):
@@ -49,7 +48,6 @@ def get(link):
 
 
 def check_format(price):
-
     if "," in price:
         convert_price = ""
         for j in price:
@@ -65,7 +63,6 @@ def check_format(price):
 
 
 def check_shipping(ship_html):
-
     if ship_html is None:
         return False
     elif str(ship_html.get_text()) == "Free Shipping":
@@ -74,7 +71,6 @@ def check_shipping(ship_html):
 
 
 def add_shipping(price, ship_check):
-
     shipping = ship_check.get_text()
     temp_ship = shipping.split()
     shipping = float(temp_ship[0][2:])
@@ -83,27 +79,50 @@ def add_shipping(price, ship_check):
     return price
 
 
-def get_prices(page_data):
+def filter_title(title, page):
+    """
+    Use for removing unwanted prices on games that will likely lead to a significantly higher price due to details given
+     in the title of the listing. (ex. CIB, Sealed, Factory, Collector's Edition)
+    """
+
+    keywords = ["cib", "collector's", "collectors", "collector", "legendary", "special", "factory", "sealed",
+                "complete", "in box", "lot", "games", "graded", "black label", "mint", "disc only", "disk",
+                "repro", "reproduction"]
+
+    listing_name = page.find(class_="s-item__title").get_text()
+
+    for i in keywords:
+        if i in listing_name.lower() or title not in listing_name.lower():
+            return True
+
+    return False
+
+
+def get_prices(page_data, title):
     price_list = []
 
     for i in range(199):
 
-        if page_data.find(id="srp-river-results-listing" + str(i + 1)) is None:
+        listing = page_data.find(id="srp-river-results-listing" + str(i + 1))
+
+        if listing is None:
             return average_price(price_list)
 
-        games = page_data.find(id="srp-river-results-listing" + str(i + 1)).find(class_="s-item__price")  # finds
-        # price of item
+        games = listing.find(class_="s-item__price")  # finds price of item
 
         price = games.get_text()[1:]
         price = check_format(price)
 
-        ship_check = ((page_data.find(id="srp-river-results-listing" + str(i + 1)).find(
+        ship_check = ((listing.find(
             class_="s-item__shipping s-item__logisticsCost")))  # finds the shipping of item
 
         if check_shipping(ship_check) is True:
             price = add_shipping(price, ship_check)
 
-        price_list.append(float(price))
+        if filter_title(title, listing):
+            continue
+        else:
+            price_list.append(float(price))
 
     return average_price(price_list)
 
@@ -118,7 +137,7 @@ def main():
     print(url)
     page = get(url)
 
-    average = get_prices(page)
+    average = get_prices(page, game)
 
     print("\nThe average price of " + game + " on the " + console + " is approximately $"
           + str("{0:.2f}".format(average)))  # Used to remove large floating decimal numbers in the average
