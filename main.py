@@ -46,9 +46,8 @@ def get(link):
     fetch = bs(page, 'lxml')
     price_list = []
 
-    for i in range(99):
-        print(i)
-        if fetch.find(id="srp-river-results-listing" + str(i + 1)) == None:
+    for i in range(199):
+        if fetch.find(id="srp-river-results-listing" + str(i + 1)) is None:
             return average_price(price_list)
 
         games = fetch.find(id="srp-river-results-listing" + str(i + 1)).find(class_="s-item__price")
