@@ -87,7 +87,7 @@ def filter_title(title, page):
 
     keywords = ["cib", "collector's", "collectors", "collector", "legendary", "special", "factory", "sealed",
                 "complete", "in box", "lot", "games", "graded", "black label", "mint", "disc only", "disk",
-                "repro", "reproduction"]
+                "repro", "reproduction", "manual only", "case only"]
 
     listing_name = page.find(class_="s-item__title").get_text()
 
