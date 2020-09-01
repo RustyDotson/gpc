@@ -87,7 +87,7 @@ def filter_title(title, page):
     Use for removing unwanted prices on games that will likely lead to a significantly higher price due to details given
      in the title of the listing. (ex. CIB, Sealed, Factory, Collector's Edition)
     """
-    keywords = ["cib", "collector's", "collectors", "collector", "legendary", "special", "factory", "sealed",
+    keywords = ["2", "3", "4", "cib", "collector's", "collectors", "collector", "legendary", "special", "factory", "sealed",
                 "complete", "in box", "lot", "games", "graded", "mint", "disc only", "disk", "rare",
                 "repro", "reproduction", "manual only", "case only", "set", "bundle", "Steelbook", "steelbook"]
 
