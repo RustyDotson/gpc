@@ -108,7 +108,8 @@ def get_prices(page_data, title):
     price_list = []
 
     for i in range(199):
-
+        print("games checked: " + str(i))
+        
         listing = page_data.find("li", {"data-view": "mi:1686|iid:" + str(i+1)}) #"srp-river-results" + str(i + 1))
         if listing is None:
             return average_price(price_list)
