@@ -67,9 +67,13 @@ def check_format(price):
 def check_shipping(ship_html):
     if ship_html is None:
         return False
-    elif str(ship_html.get_text()) == "Free shipping" or str(ship_html.get_text()) == "Freight":
-        return False
-
+    #elif str(ship_html.get_text()) == "Free shipping" or str(ship_html.get_text()) == "Freight":
+    #    return False
+    strNums = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    shippingLabel = ship_html.get_text()
+    for digit in strNums:
+        if digit not in shippingLabel:
+            return False
     return True
 
 
@@ -87,7 +91,7 @@ def filter_title(title, page):
     Use for removing unwanted prices on games that will likely lead to a significantly higher price due to details given
      in the title of the listing. (ex. CIB, Sealed, Factory, Collector's Edition)
     """
-    keywords = ["2", "3", "4", "cib", "collector's", "collectors", "collector", "legendary", "special", "factory", "sealed",
+    keywords = ["1", "2", "3", "4", "cib", "collector's", "collectors", "collector", "legendary", "special", "factory", "sealed",
                 "complete", "in box", "lot", "games", "graded", "mint", "disc only", "disk", "rare",
                 "repro", "reproduction", "manual only", "case only", "set", "bundle", "Steelbook", "steelbook"]
 
@@ -132,7 +136,7 @@ def main():
     url = "https://www.ebay.com/sch/i.html?_from=R40&_nkw=" + sub_space(game) + "+" + sub_space(console) + \
           "&_sacat=0&LH_BIN=1&Region%2520Code=NTSC%252DU%252FC%2520%2528US%252FCanada%2529&rt=nc&_oaa=1&_dcat=139973" \
           "&_ipg=200"
-
+    print(url)
     page = get(url)
     average = get_prices(page, game)
 
