@@ -136,7 +136,7 @@ def main():
 
     url = "https://www.ebay.com/sch/i.html?_from=R40&_nkw=" + sub_space(game) + "+" + sub_space(console) + \
           "&_sacat=0&LH_BIN=1&Region%2520Code=NTSC%252DU%252FC%2520%2528US%252FCanada%2529&rt=nc&_oaa=1&_dcat=139973" \
-          "&_ipg=200"
+          "&_ipg=200&LH_Sold=1&LH_Complete=1"
     print(url)
     print("please wait a moment")
     page = get(url)
